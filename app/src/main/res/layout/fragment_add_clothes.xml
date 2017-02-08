@@ -1,0 +1,64 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/conteiner"
+    tools:context=".main.fragment_add_clothes.ui.FragmentAddClothes">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Categoria"
+                android:textSize="@dimen/textSize320" />
+
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                style="@style/SpinnerStyle"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Sub Categoria"
+                android:textSize="@dimen/textSize320" />
+
+            <Spinner
+                android:id="@+id/spinnerSubCategory"
+                style="@style/SpinnerStyle"/>
+
+            <ImageView
+                android:id="@+id/imageViewClothes"
+                android:layout_width="@dimen/image_size_320"
+                android:layout_height="@dimen/image_size_320"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:clickable="true"
+                android:src="@mipmap/ic_imge_clothes" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/editTextInputDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/editTextDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:hint="Descripción"
+                    android:maxLength="200" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+    </ScrollView>
+</FrameLayout>

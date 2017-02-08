@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">M y D</string>
+    <string name="add_clothes">CARGAR</string>
+    <string name="edit_clothes">EDITAR</string>
+
+    <string name="spinner_category_empty">Categoria</string>
+    <string name="spinner_subcategory_empty">SubCategoria</string>
+    <string name="msg_empty_category">Crear una categoria.</string>
+    <string name="msg_empty_subcategory">Crear una SubCategoria.</string>
+    <string name="msg_empty_image">Seleccionar una foto.</string>
+    <string name="msg_empty_description">Ingrese una descripción.</string>
+    <string name="msg_save_clothes_success">Producto guardado.</string>
+    <string name="msg_edit_clothes_success">Producto actualizado.</string>
+    <string name="msg_delete_clothes_success">Producto eliminado.</string>
+    <string name="msg_empty_category_adapter">Ingrese una categoria.</string>
+    <string name="msg_save_categoty_success">Categoria guardada.</string>
+    <string name="msg_edit_categoty_success">Categoria actualizada.</string>
+    <string name="msg_delete_categoty_success">Categoria eliminada.</string>
+    <string name="msg_empty_subcategory_adapter">Ingrese una SubCategoria.</string>
+    <string name="msg_save_subcategory_success">SubCategoria guardada.</string>
+    <string name="msg_edit_subcategory_success">SubCategoria actualizada.</string>
+    <string name="msg_delete_subcategory_success">SubCategoria eliminada.</string>
+
+    <string-array name="tables">
+        <item>CATEGORY</item>
+        <item>SUBCATEGORY</item>
+        <item>CLOTHES</item>
+        <item>TABLES</item>
+    </string-array>
+
+</resources>

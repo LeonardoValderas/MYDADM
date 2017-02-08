@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add_category"
+        android:title="Categoria"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/add_sub_category"
+        android:title="SubCategoria"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/add_notification"
+        android:title="Notificación"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/synchronize"
+        android:title="Sincronizar"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/action_save"
+        android:icon="@android:drawable/ic_menu_save"
+        app:showAsAction="always"
+        android:title=""></item>
+</menu>
