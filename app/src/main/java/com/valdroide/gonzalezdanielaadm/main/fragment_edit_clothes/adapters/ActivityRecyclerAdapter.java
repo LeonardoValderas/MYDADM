@@ -45,7 +45,7 @@ public class ActivityRecyclerAdapter extends RecyclerView.Adapter<ActivityRecycl
         Clothes clothes = clothesList.get(position);
         holder.setOnItemClickListener(onItemClickListener, position, clothes);
         holder.textViewDescription.setText(clothes.getDESCRIPTION());
-        holder.switchActive.setChecked(clothes.getISACTIVE());
+        holder.switchActive.setChecked(clothes.getISACTIVE()==0 ? false : true);
         Utils.setPicasso(fragment.getActivity(),clothes.getURL_PHOTO(),R.mipmap.ic_imge_clothes,holder.imageViewClothes);
     }
 
@@ -66,7 +66,7 @@ public class ActivityRecyclerAdapter extends RecyclerView.Adapter<ActivityRecycl
     public void updateAdapter(Clothes clothes) {
         for (int i = 0; i < this.clothesList.size(); i++) {
             if (this.clothesList.get(i).getID_CLOTHES_KEY() == clothes.getID_CLOTHES_KEY())
-                this.clothesList.get(i).setISACTIVE(clothes.getISACTIVE());
+              this.clothesList.get(i).setISACTIVE(clothes.getISACTIVE());
             break;
         }
         notifyDataSetChanged();

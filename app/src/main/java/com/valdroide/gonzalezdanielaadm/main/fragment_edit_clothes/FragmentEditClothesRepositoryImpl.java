@@ -9,6 +9,7 @@ import com.valdroide.gonzalezdanielaadm.entities.Category;
 import com.valdroide.gonzalezdanielaadm.entities.Clothes;
 import com.valdroide.gonzalezdanielaadm.entities.Clothes_Table;
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
+import com.valdroide.gonzalezdanielaadm.entities.ResponseWS;
 import com.valdroide.gonzalezdanielaadm.entities.Result;
 import com.valdroide.gonzalezdanielaadm.entities.SubCategory;
 import com.valdroide.gonzalezdanielaadm.entities.SubCategory_Table;
@@ -63,15 +64,6 @@ public class FragmentEditClothesRepositoryImpl implements FragmentEditClothesRep
         ConditionGroup conditionGroup = ConditionGroup.clause();
         conditionGroup.and(Condition.column(new NameAlias("Clothes.ID_CATEGORY")).is(id_category));
         conditionGroup.and(Condition.column(new NameAlias("Clothes.ID_SUBCATEGORY")).is(id_sub_category));
-
-        // clothesList = SQLite.select().from(Clothes.class).where(conditionGroup).orderBy(new NameAlias("CATEGORY"), true).queryList();
-        //  clothesList = SQLite.select().from(Clothes.class).where(conditionGroup).queryList();
-        //     clothesList = SQLite.select().from(Clothes.class).queryList();
-//        clothesList = SQLite.select( Clothes_Table.DESCRIPTION, Clothes_Table.ID_CATEGORY.as(new NameAlias("ID_CAT").getAliasName()),
-//                Clothes_Table.ID_SUBCATEGORY.as(new NameAlias("ID_SUBC").getAliasName()),Clothes_Table.ISACTIVE, SubCategory_Table.SUBCATEGORY)
-//                .from(Clothes.class).leftOuterJoin(SubCategory.class)
-//                .on(Clothes_Table.ID_SUBCATEGORY.withTable().eq(SubCategory_Table.ID.as(new NameAlias("ID_S").getAliasName()).withTable()))
-//                .where(conditionGroup).orderBy(new NameAlias("SUBCATEGORY"), true).queryList();
 
         clothesList = SQLite.select()
                 .from(Clothes.class).innerJoin(SubCategory.class)

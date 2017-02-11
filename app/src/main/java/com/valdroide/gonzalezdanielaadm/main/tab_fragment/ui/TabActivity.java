@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 
 import com.valdroide.gonzalezdanielaadm.R;
 import com.valdroide.gonzalezdanielaadm.main.fragment_add_clothes.Communicator;
@@ -68,6 +69,16 @@ public class TabActivity extends AppCompatActivity implements Communicator {
                 .findFragmentByTag("android:switcher:" + viewPager.getId()
                         + ":" + 1);
         return fragment;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            return false;
+        }
+        return false;
     }
 
 //    @Override

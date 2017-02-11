@@ -1,9 +1,12 @@
 package com.valdroide.gonzalezdanielaadm.main.category;
 
 
+import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.NameAlias;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.valdroide.gonzalezdanielaadm.api.APIService;
+import com.valdroide.gonzalezdanielaadm.db.ClothesDatabase;
 import com.valdroide.gonzalezdanielaadm.entities.Category;
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
 import com.valdroide.gonzalezdanielaadm.entities.Result;
@@ -120,7 +123,6 @@ public class ActivityCategoryRepositoryImpl implements ActivityCategoryRepositor
             post(ActivityCategoryEvent.ERROR, e.getMessage());
         }
     }
-
 
     @Override
     public void deleteCategory(final Category category, final DateTable dateTable) {

@@ -25,6 +25,10 @@ import com.valdroide.gonzalezdanielaadm.main.notification.di.DaggerNotificationA
 import com.valdroide.gonzalezdanielaadm.main.notification.di.NotificationActivityComponent;
 import com.valdroide.gonzalezdanielaadm.main.notification.di.NotificationActivityModule;
 import com.valdroide.gonzalezdanielaadm.main.notification.ui.NotificationActivityView;
+import com.valdroide.gonzalezdanielaadm.main.splash.di.DaggerSplashActivityComponent;
+import com.valdroide.gonzalezdanielaadm.main.splash.di.SplashActivityComponent;
+import com.valdroide.gonzalezdanielaadm.main.splash.di.SplashActivityModule;
+import com.valdroide.gonzalezdanielaadm.main.splash.ui.SplashActivityView;
 import com.valdroide.gonzalezdanielaadm.main.subcategory.di.ActivitySubCategoryComponent;
 import com.valdroide.gonzalezdanielaadm.main.subcategory.di.ActivitySubCategoryModule;
 import com.valdroide.gonzalezdanielaadm.main.subcategory.di.DaggerActivitySubCategoryComponent;
@@ -105,6 +109,15 @@ public class GonzalezDanielaAdmApp extends Application {
                 .gonzalezDanielaAdmAppModule(gonzalezDanielaAdmAppModule)
                 .libsModule(new LibsModule(activity))
                 .notificationActivityModule(new NotificationActivityModule(view))
+                .build();
+    }
+
+    public SplashActivityComponent getSplashActivityComponent(SplashActivityView view, Activity activity) {
+        return DaggerSplashActivityComponent
+                .builder()
+                .gonzalezDanielaAdmAppModule(gonzalezDanielaAdmAppModule)
+                .libsModule(new LibsModule(activity))
+                .splashActivityModule(new SplashActivityModule(view))
                 .build();
     }
 }

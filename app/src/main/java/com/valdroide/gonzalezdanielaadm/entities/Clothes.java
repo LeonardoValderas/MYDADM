@@ -36,7 +36,7 @@ public class Clothes extends BaseModel {
 
     @Column
     @SerializedName("is_active")
-    private boolean ISACTIVE;
+    private int ISACTIVE;
 
     private String ENCODEBYTE;
     private String NAME_BEFORE;
@@ -92,13 +92,14 @@ public class Clothes extends BaseModel {
         this.DESCRIPTION = DESCRIPTION;
     }
 
-    public boolean getISACTIVE() {
-        return ISACTIVE;
+    public int getISACTIVE() {
+        return this.ISACTIVE;
     }
 
-    public void setISACTIVE(boolean ISACTIVE) {
+    public void setISACTIVE(int ISACTIVE) {
         this.ISACTIVE = ISACTIVE;
     }
+
 
     public String getENCODEBYTE() {
         return ENCODEBYTE;
@@ -115,4 +116,5 @@ public class Clothes extends BaseModel {
     public void setNAME_BEFORE(String NAME_BEFORE) {
         this.NAME_BEFORE = NAME_BEFORE;
     }
+
 }

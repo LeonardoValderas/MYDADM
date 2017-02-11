@@ -1,20 +1,9 @@
 package com.valdroide.gonzalezdanielaadm.main.notification.di;
 
-import android.app.Activity;
 
 import com.valdroide.gonzalezdanielaadm.api.APIService;
 import com.valdroide.gonzalezdanielaadm.api.ClothesClient;
-import com.valdroide.gonzalezdanielaadm.entities.Category;
 import com.valdroide.gonzalezdanielaadm.lib.base.EventBus;
-import com.valdroide.gonzalezdanielaadm.main.category.ActivityCategoryInteractor;
-import com.valdroide.gonzalezdanielaadm.main.category.ActivityCategoryInteractorImpl;
-import com.valdroide.gonzalezdanielaadm.main.category.ActivityCategoryPresenter;
-import com.valdroide.gonzalezdanielaadm.main.category.ActivityCategoryPresenterImpl;
-import com.valdroide.gonzalezdanielaadm.main.category.ActivityCategoryRepository;
-import com.valdroide.gonzalezdanielaadm.main.category.ActivityCategoryRepositoryImpl;
-import com.valdroide.gonzalezdanielaadm.main.category.ui.ActivityCategoryView;
-import com.valdroide.gonzalezdanielaadm.main.category.ui.adapters.ActivityCategoryAdapter;
-import com.valdroide.gonzalezdanielaadm.main.category.ui.adapters.OnItemClickListener;
 import com.valdroide.gonzalezdanielaadm.main.notification.NotificationActivityInteractor;
 import com.valdroide.gonzalezdanielaadm.main.notification.NotificationActivityInteractorImpl;
 import com.valdroide.gonzalezdanielaadm.main.notification.NotificationActivityPresenter;
@@ -22,9 +11,6 @@ import com.valdroide.gonzalezdanielaadm.main.notification.NotificationActivityPr
 import com.valdroide.gonzalezdanielaadm.main.notification.NotificationActivityRepository;
 import com.valdroide.gonzalezdanielaadm.main.notification.NotificationActivityRepositoryImpl;
 import com.valdroide.gonzalezdanielaadm.main.notification.ui.NotificationActivityView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Singleton;
 

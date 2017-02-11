@@ -46,11 +46,11 @@ public interface APIService {
     //CLOTHES
     @FormUrlEncoded
     @POST("clothes/insertClothes.php")
-    Call<Result> insertClothes(@Field("id_category") int id_category, @Field("id_subcategory") int id_subcategory, @Field("url_photo") String url_photo, @Field("name_photo") String name_photo, @Field("description") String description, @Field("is_active") boolean is_active, @Field("encode") String encode, @Field("table_date") String table_date);
+    Call<Result> insertClothes(@Field("id_category") int id_category, @Field("id_subcategory") int id_subcategory, @Field("url_photo") String url_photo, @Field("name_photo") String name_photo, @Field("description") String description, @Field("is_active") int is_active, @Field("encode") String encode, @Field("table_date") String table_date);
 
     @FormUrlEncoded
     @POST("clothes/updateClothes.php")
-    Call<Result> updateClothes(@Field("id_clothes") int id_clothes, @Field("id_category") int id_category, @Field("id_subcategory") int id_subcategory, @Field("url_photo") String url_photo, @Field("name_photo") String name_photo, @Field("description") String description, @Field("is_active") boolean is_active, @Field("encode") String encode, @Field("name_before") String name_before, @Field("table_date") String table_date);
+    Call<Result> updateClothes(@Field("id_clothes") int id_clothes, @Field("id_category") int id_category, @Field("id_subcategory") int id_subcategory, @Field("url_photo") String url_photo, @Field("name_photo") String name_photo, @Field("description") String description, @Field("is_active") int is_active, @Field("encode") String encode, @Field("name_before") String name_before, @Field("table_date") String table_date);
 
     @FormUrlEncoded
     @POST("clothes/deleteClothes.php")
@@ -58,11 +58,20 @@ public interface APIService {
 
     @FormUrlEncoded
     @POST("clothes/updateActiveClothes.php")
-    Call<Result> updateActiveClothes(@Field("id_clothes") int id_clothes, @Field("is_active") boolean is_active, @Field("table_date") String table_date);
+    Call<Result> updateActiveClothes(@Field("id_clothes") int id_clothes, @Field("is_active") int is_active, @Field("table_date") String table_date);
 
     //NOTIFICATION
     @FormUrlEncoded
     @POST("notification/sendNotification.php")
     Call<Result> sendNotification(@Field("title") String title, @Field("content") String content);
+
+    //SPLASH
+    @FormUrlEncoded
+    @POST("splash/splash.php")
+    Call<Result> sendDateTable(@Field("date_table") String date_table, @Field("category") String category, @Field("subcategory") String subcategory, @Field("clothes") String clothes);
+    //@FormUrlEncoded
+    @POST("splash/splash.php")
+    Call<Result> getAllData();
+
 
 }

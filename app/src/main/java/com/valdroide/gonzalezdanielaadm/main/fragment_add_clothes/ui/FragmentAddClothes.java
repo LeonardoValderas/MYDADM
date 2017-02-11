@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -145,7 +146,7 @@ public class FragmentAddClothes extends Fragment implements FragmentAddClothesVi
             clothes.setDESCRIPTION(getActivity().getIntent().getStringExtra("description"));
             clothes.setID_CATEGORY(getActivity().getIntent().getIntExtra("id_category", 0));
             clothes.setID_SUBCATEGORY(getActivity().getIntent().getIntExtra("id_sub_category", 0));
-            clothes.setISACTIVE(getActivity().getIntent().getBooleanExtra("is_activo", false));
+            clothes.setISACTIVE(getActivity().getIntent().getIntExtra("is_activo", 0));
             name_before = getActivity().getIntent().getStringExtra("photo_name");
             clothes.setNAME_PHOTO(name_before);
             clothes.setURL_PHOTO(getActivity().getIntent().getStringExtra("url"));
@@ -328,7 +329,7 @@ public class FragmentAddClothes extends Fragment implements FragmentAddClothesVi
                 .start(getContext(), FragmentAddClothes.this);
     }
 
-    public Clothes fillClothe(int id, boolean isActive, boolean update) {
+    public Clothes fillClothe(int id, int isActive, boolean update) {
         clothes.setID_CATEGORY(id_category_save);
         clothes.setID_SUBCATEGORY(id_subcategory_save);
         clothes.setDESCRIPTION(editTextDescription.getText().toString());
@@ -364,6 +365,8 @@ public class FragmentAddClothes extends Fragment implements FragmentAddClothesVi
         imageByte = null;
     }
 
+
+
     @Override
     public void onDestroy() {
         presenter.onDestroy();
@@ -398,7 +401,7 @@ public class FragmentAddClothes extends Fragment implements FragmentAddClothesVi
 
                 if (!update) {
                     pDialog.show();
-                    presenter.saveClothe(fillClothe(0, true, update), new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));
+                    presenter.saveClothe(fillClothe(0, 1, update), new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));
                 } else {
                     pDialog.show();
                     presenter.updateClothe(fillClothe(clothes.getID_CLOTHES_KEY(), clothes.getISACTIVE(), update), new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));

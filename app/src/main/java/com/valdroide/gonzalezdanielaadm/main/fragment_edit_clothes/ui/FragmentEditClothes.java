@@ -139,7 +139,7 @@ public class FragmentEditClothes extends Fragment implements FragmentEditClothes
     }
 
     private void initAdapterSubCategory() {
-        adapterSpinnerSub = new AdapterSpinnerSubCategory(getActivity(), R.layout.support_simple_spinner_dropdown_item, subCategories);
+        adapterSpinnerSub = new AdapterSpinnerSubCategory(getActivity(), R.layout.simple_spinner_dropdown_item, subCategories);
         adapterSpinnerSub.setNotifyOnChange(true);
         spinnerSubCategory.setAdapter(adapterSpinnerSub);
     }
@@ -184,8 +184,8 @@ public class FragmentEditClothes extends Fragment implements FragmentEditClothes
 
     @Override
     public void setListSubCategoryForCategory(List<SubCategory> subcategories) {
-        if (subCategories.isEmpty())
-            subCategories.add(new SubCategory(0, getString(R.string.spinner_subcategory_empty)));
+        if (subcategories.isEmpty())
+            subcategories.add(new SubCategory(0, getString(R.string.spinner_subcategory_empty)));
         this.subCategories = subcategories;
     }
 
@@ -229,7 +229,7 @@ public class FragmentEditClothes extends Fragment implements FragmentEditClothes
     @Override
     public void onClickSwitch(Clothes clothes) {
         pDialog.show();
-        boolean isactive = clothes.getISACTIVE() ? false : true;
+        int isactive = clothes.getISACTIVE() == 0 ? 1 : 0;
         clothes.setISACTIVE(isactive);
         presenter.clickSwitch(clothes, new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));
     }

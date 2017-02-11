@@ -6,7 +6,7 @@
         android:id="@+id/textViewGeneral"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
+        android:textSize="25dp"
         android:text="ww"/>
 
 </LinearLayout>
