@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.notification;
 
+import android.content.Context;
+
 public class NotificationActivityInteractorImpl implements NotificationActivityInteractor {
 
     private NotificationActivityRepository repository;
@@ -9,7 +11,7 @@ public class NotificationActivityInteractorImpl implements NotificationActivityI
     }
 
     @Override
-    public void sendNotification(String title, String content) {
-      repository.sendNotification(title, content);
+    public void sendNotification(Context context, String title, String content) {
+      repository.sendNotification(context, title, content);
     }
 }

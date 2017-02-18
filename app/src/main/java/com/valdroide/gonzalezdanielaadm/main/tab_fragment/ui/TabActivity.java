@@ -1,14 +1,21 @@
 package com.valdroide.gonzalezdanielaadm.main.tab_fragment.ui;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TabHost;
 
 import com.valdroide.gonzalezdanielaadm.R;
 import com.valdroide.gonzalezdanielaadm.main.fragment_add_clothes.Communicator;
@@ -24,8 +31,6 @@ import butterknife.ButterKnife;
 public class TabActivity extends AppCompatActivity implements Communicator {
     @Inject
     SectionsPagerAdapter adapter;
-//    @Bind(R.id.toolbar)
-//    Toolbar toolbar;
     @Bind(R.id.tabs)
     TabLayout tabs;
     @Bind(R.id.appbar)
@@ -47,8 +52,30 @@ public class TabActivity extends AppCompatActivity implements Communicator {
     private void setupNavigation() {
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);
-//        if (!update)
-//            viewPager.setCurrentItem(1);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                hideKeyBoard();
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                hideKeyBoard();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+    public void hideKeyBoard() {
+        View view = getCurrentFocus();
+        if (view != null) {
+            InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            mgr.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
     private void setupInjection() {
         String[] titles = new String[]{getString(R.string.add_clothes),
@@ -80,34 +107,4 @@ public class TabActivity extends AppCompatActivity implements Communicator {
         }
         return false;
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-////        if (id == R.id.item_delete) {
-////            getFragmentChecks().deleteClick();
-////            return true;
-////        }
-////        if (id == R.id.action_share) {
-////            getFragmentChecks().shareClick();
-////            return true;
-////        }
-////        if (id == R.id.email) {
-////            getFragmentChecks().emailClick();
-////            return true;
-////        }
-////        if (id == android.R.id.home) {
-////            if (is_action_mode) {
-////                clearActionMode();
-////            }
-////            return true;
-////        }
-//        return true;
-//    }
 }

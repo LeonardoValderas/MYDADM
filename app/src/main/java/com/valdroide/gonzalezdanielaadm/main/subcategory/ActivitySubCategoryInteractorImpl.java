@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.subcategory;
 
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
 import com.valdroide.gonzalezdanielaadm.entities.SubCategory;
 
@@ -18,18 +20,18 @@ public class ActivitySubCategoryInteractorImpl implements ActivitySubCategoryInt
     }
 
     @Override
-    public void saveSubCategory(SubCategory subcategory, DateTable dateTable) {
-        repository.saveSubCategory(subcategory, dateTable);
+    public void saveSubCategory(Context context, SubCategory subcategory, DateTable dateTable) {
+        repository.saveSubCategory(context, subcategory, dateTable);
     }
 
     @Override
-    public void deleteSubCategory(SubCategory subcategory, DateTable dateTable) {
-        repository.deleteSubCategory(subcategory, dateTable);
+    public void deleteSubCategory(Context context, SubCategory subcategory, DateTable dateTable) {
+        repository.deleteSubCategory(context, subcategory, dateTable);
     }
 
     @Override
-    public void editSubCategory(SubCategory subcategory, DateTable dateTable) {
-        repository.editSubCategory(subcategory, dateTable);
+    public void editSubCategory(Context context, SubCategory subcategory, DateTable dateTable) {
+        repository.editSubCategory(context, subcategory, dateTable);
     }
 
     @Override

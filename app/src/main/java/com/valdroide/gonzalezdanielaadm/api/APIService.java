@@ -62,8 +62,8 @@ public interface APIService {
 
     //NOTIFICATION
     @FormUrlEncoded
-    @POST("notification/sendNotification.php")
-    Call<Result> sendNotification(@Field("title") String title, @Field("content") String content);
+    @POST("fcm/sendNotification.php")
+    Call<Result> sendNotification(@Field("title") String title, @Field("message") String message);
 
     //SPLASH
     @FormUrlEncoded

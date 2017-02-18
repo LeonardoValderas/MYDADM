@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.fragment_edit_clothes;
 
+import android.content.Context;
+
 import com.raizlabs.android.dbflow.sql.language.Condition;
 import com.raizlabs.android.dbflow.sql.language.ConditionGroup;
 import com.raizlabs.android.dbflow.sql.language.NameAlias;
@@ -77,74 +79,82 @@ public class FragmentEditClothesRepositoryImpl implements FragmentEditClothesRep
     }
 
     @Override
-    public void deleteClothes(final Clothes clothes, final DateTable dateTable) {
-        try {
-            Call<Result> clothesService = service.deleteClothes(clothes.getID_CLOTHES_KEY(), clothes.getNAME_PHOTO(), dateTable.getDATE());
-            clothesService.enqueue(new Callback<Result>() {
-                @Override
-                public void onResponse(Call<Result> call, Response<Result> response) {
-                    if (response.isSuccessful()) {
-                        message[0] = response.body().getMessage();
-                        success[0] = response.body().getSuccess();
+    public void deleteClothes(Context context, final Clothes clothes, final DateTable dateTable) {
+        if (Utils.isNetworkAvailable(context)) {
+            try {
+                Call<Result> clothesService = service.deleteClothes(clothes.getID_CLOTHES_KEY(), clothes.getNAME_PHOTO(), dateTable.getDATE());
+                clothesService.enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        if (response.isSuccessful()) {
+                            message[0] = response.body().getMessage();
+                            success[0] = response.body().getSuccess();
 
-                        if (success[0].equals("0")) {
-                            clothes.delete();
-                            if (Utils.dateTables() != null) {
-                                if (Utils.dateTables().size() <= 0) {
-                                    Utils.switchTable();
+                            if (success[0].equals("0")) {
+                                clothes.delete();
+                                if (Utils.dateTables() != null) {
+                                    if (Utils.dateTables().size() <= 0) {
+                                        Utils.switchTable();
+                                    }
                                 }
+                                Utils.updateDateTable(dateTable);
+                                post(FragmentEditClothesEvent.DELETE, clothes);
+                            } else {
+                                post(FragmentEditClothesEvent.ERROR, message[0]);
                             }
-                            Utils.updateDateTable(dateTable);
-                            post(FragmentEditClothesEvent.DELETE, clothes);
-                        } else {
-                            post(FragmentEditClothesEvent.ERROR, message[0]);
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Result> call, Throwable t) {
-                    post(FragmentEditClothesEvent.ERROR, t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            post(FragmentEditClothesEvent.ERROR, e.getMessage());
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        post(FragmentEditClothesEvent.ERROR, t.getMessage());
+                    }
+                });
+            } catch (Exception e) {
+                post(FragmentEditClothesEvent.ERROR, e.getMessage());
+            }
+        } else {
+            post(FragmentEditClothesEvent.ERROR, "Verificar su conexión de Internet.");
         }
     }
 
     @Override
-    public void clickSwitch(final Clothes clothes, final DateTable dateTable) {
-        try {
-            Call<Result> clothesService = service.updateActiveClothes(clothes.getID_CLOTHES_KEY(), clothes.getISACTIVE(), dateTable.getDATE());
-            clothesService.enqueue(new Callback<Result>() {
-                @Override
-                public void onResponse(Call<Result> call, Response<Result> response) {
-                    if (response.isSuccessful()) {
-                        message[0] = response.body().getMessage();
-                        success[0] = response.body().getSuccess();
+    public void clickSwitch(Context context, final Clothes clothes, final DateTable dateTable) {
+        if (Utils.isNetworkAvailable(context)) {
+            try {
+                Call<Result> clothesService = service.updateActiveClothes(clothes.getID_CLOTHES_KEY(), clothes.getISACTIVE(), dateTable.getDATE());
+                clothesService.enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        if (response.isSuccessful()) {
+                            message[0] = response.body().getMessage();
+                            success[0] = response.body().getSuccess();
 
-                        if (success[0].equals("0")) {
-                            clothes.update();
-                            if (Utils.dateTables() != null) {
-                                if (Utils.dateTables().size() <= 0) {
-                                    Utils.switchTable();
+                            if (success[0].equals("0")) {
+                                clothes.update();
+                                if (Utils.dateTables() != null) {
+                                    if (Utils.dateTables().size() <= 0) {
+                                        Utils.switchTable();
+                                    }
                                 }
+                                Utils.updateDateTable(dateTable);
+                                post(FragmentEditClothesEvent.ACTIVE, clothes);
+                            } else {
+                                post(FragmentEditClothesEvent.ERROR, message[0]);
                             }
-                            Utils.updateDateTable(dateTable);
-                            post(FragmentEditClothesEvent.ACTIVE, clothes);
-                        } else {
-                            post(FragmentEditClothesEvent.ERROR, message[0]);
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Result> call, Throwable t) {
-                    post(FragmentEditClothesEvent.ERROR, t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            post(FragmentEditClothesEvent.ERROR, e.getMessage());
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        post(FragmentEditClothesEvent.ERROR, t.getMessage());
+                    }
+                });
+            } catch (Exception e) {
+                post(FragmentEditClothesEvent.ERROR, e.getMessage());
+            }
+        } else {
+            post(FragmentEditClothesEvent.ERROR, "Verificar su conexión de Internet.");
         }
     }
 
@@ -163,7 +173,8 @@ public class FragmentEditClothesRepositoryImpl implements FragmentEditClothesRep
     public void post(int type, int nothing, List<Clothes> clothesList) {
         post(type, null, null, clothesList, null, null);
     }
-    public void post(int type,Clothes clothes) {
+
+    public void post(int type, Clothes clothes) {
         post(type, null, null, null, null, clothes);
     }
 

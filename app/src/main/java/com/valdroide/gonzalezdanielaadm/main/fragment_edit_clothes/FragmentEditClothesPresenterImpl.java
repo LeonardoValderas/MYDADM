@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.fragment_edit_clothes;
 
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.entities.Clothes;
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
 import com.valdroide.gonzalezdanielaadm.lib.base.EventBus;
@@ -47,13 +49,13 @@ public class FragmentEditClothesPresenterImpl implements FragmentEditClothesPres
     }
 
     @Override
-    public void deleteClothes(Clothes clothes, DateTable dateTable) {
-        interactor.deleteClothes(clothes, dateTable);
+    public void deleteClothes(Context context, Clothes clothes, DateTable dateTable) {
+        interactor.deleteClothes(context, clothes, dateTable);
     }
 
     @Override
-    public void clickSwitch(Clothes clothes, DateTable dateTable) {
-        interactor.clickSwitch(clothes, dateTable);
+    public void clickSwitch(Context context, Clothes clothes, DateTable dateTable) {
+        interactor.clickSwitch(context, clothes, dateTable);
     }
 
     @Override

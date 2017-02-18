@@ -80,20 +80,20 @@ public class ActivityCategory extends AppCompatActivity implements OnItemClickLi
             Utils.showSnackBar(conteiner, getString(R.string.msg_empty_category_adapter));
         else {
             pDialog.show();
-            presenter.saveCategory(new Category(0, editTextCategory.getText().toString()),new DateTable(Utils.CATEGORY, Utils.getFechaOficial()));
+            presenter.saveCategory(this, new Category(0, editTextCategory.getText().toString()),new DateTable(Utils.CATEGORY, Utils.getFechaOficial()));
         }
     }
 
     @Override
     public void onClickEdit(Category category) {
         pDialog.show();
-        presenter.editCategory(category, new DateTable(Utils.CATEGORY, Utils.getFechaOficial()));
+        presenter.editCategory(this, category, new DateTable(Utils.CATEGORY, Utils.getFechaOficial()));
     }
 
     @Override
     public void onClickDelete(Category category, int position) {
         pDialog.show();
-        presenter.deleteCategory(category, new DateTable(Utils.CATEGORY, Utils.getFechaOficial()));
+        presenter.deleteCategory(this, category, new DateTable(Utils.CATEGORY, Utils.getFechaOficial()));
     }
 
     @Override

@@ -80,7 +80,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 Utils.showSnackBar(conteiner, "Ingrese el mensaje.");
             else {
                 pDialog.show();
-                presenter.sendNotification(editTextTitle.getText().toString(), editTextContent.getText().toString());
+                presenter.sendNotification(this, editTextTitle.getText().toString(), editTextContent.getText().toString());
             }
             return true;
         }

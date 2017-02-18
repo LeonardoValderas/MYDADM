@@ -96,7 +96,7 @@ public class ActivitySubCategory extends AppCompatActivity implements OnItemClic
         else {
             pDialog.show();
             category = (Category) spinnerCategory.getSelectedItem();
-            presenter.saveSubCategory(new SubCategory(0, editTextCategory.getText().toString(), category.getID_CATEGORY_KEY()), new DateTable(Utils.SUBCATEGORY, Utils.getFechaOficial()));
+            presenter.saveSubCategory(this, new SubCategory(0, editTextCategory.getText().toString(), category.getID_CATEGORY_KEY()), new DateTable(Utils.SUBCATEGORY, Utils.getFechaOficial()));
         }
     }
 
@@ -118,13 +118,13 @@ public class ActivitySubCategory extends AppCompatActivity implements OnItemClic
     @Override
     public void onClickEdit(SubCategory subcategory) {
         pDialog.show();
-        presenter.editSubCategory(subcategory, new DateTable(Utils.SUBCATEGORY, Utils.getFechaOficial()));
+        presenter.editSubCategory(this, subcategory, new DateTable(Utils.SUBCATEGORY, Utils.getFechaOficial()));
     }
 
     @Override
     public void onClickDelete(SubCategory subcategory, int position) {
         pDialog.show();
-        presenter.deleteSubCategory(subcategory, new DateTable(Utils.SUBCATEGORY, Utils.getFechaOficial()));
+        presenter.deleteSubCategory(this, subcategory, new DateTable(Utils.SUBCATEGORY, Utils.getFechaOficial()));
     }
 
     @Override

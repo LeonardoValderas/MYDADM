@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.subcategory;
 
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
 import com.valdroide.gonzalezdanielaadm.entities.SubCategory;
 import com.valdroide.gonzalezdanielaadm.lib.base.EventBus;
@@ -43,20 +45,19 @@ public class ActivitySubCategoryPresenterImpl implements ActivitySubCategoryPres
     }
 
     @Override
-    public void saveSubCategory(SubCategory subcategory, DateTable dateTable) {
-        interactor.saveSubCategory(subcategory, dateTable);
+    public void saveSubCategory(Context context, SubCategory subcategory, DateTable dateTable) {
+        interactor.saveSubCategory(context, subcategory, dateTable);
     }
 
     @Override
-    public void editSubCategory(SubCategory subcategory, DateTable dateTable) {
-        interactor.editSubCategory(subcategory, dateTable);
+    public void editSubCategory(Context context, SubCategory subcategory, DateTable dateTable) {
+        interactor.editSubCategory(context, subcategory, dateTable);
     }
 
     @Override
-    public void deleteSubCategory(SubCategory subcategory, DateTable dateTable) {
-        interactor.deleteSubCategory(subcategory, dateTable);
+    public void deleteSubCategory(Context context, SubCategory subcategory, DateTable dateTable) {
+        interactor.deleteSubCategory(context, subcategory, dateTable);
     }
-
 
     @Override
     @Subscribe

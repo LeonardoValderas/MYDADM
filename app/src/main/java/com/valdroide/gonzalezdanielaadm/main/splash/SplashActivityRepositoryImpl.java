@@ -2,13 +2,9 @@ package com.valdroide.gonzalezdanielaadm.main.splash;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.valdroide.gonzalezdanielaadm.api.APIService;
-import com.valdroide.gonzalezdanielaadm.api.ClothesClient;
-import com.valdroide.gonzalezdanielaadm.db.ClothesDatabase;
 import com.valdroide.gonzalezdanielaadm.entities.Category;
 import com.valdroide.gonzalezdanielaadm.entities.Clothes;
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
@@ -16,11 +12,10 @@ import com.valdroide.gonzalezdanielaadm.entities.ResponseWS;
 import com.valdroide.gonzalezdanielaadm.entities.Result;
 import com.valdroide.gonzalezdanielaadm.entities.SubCategory;
 import com.valdroide.gonzalezdanielaadm.lib.base.EventBus;
-import com.valdroide.gonzalezdanielaadm.main.notification.events.NotificationActivityEvent;
 import com.valdroide.gonzalezdanielaadm.main.splash.events.SplashActivityEvent;
+import com.valdroide.gonzalezdanielaadm.utils.Utils;
 
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,52 +53,57 @@ public class SplashActivityRepositoryImpl implements SplashActivityRepository {
 
     @Override
     public void getAllData(final Context context) {
-        try {
-            Call<Result> splashService = service.getAllData();
-            splashService.enqueue(new Callback<Result>() {
-                @Override
-                public void onResponse(Call<Result> call, Response<Result> response) {
-                    if (response.isSuccessful()) {
+        if (Utils.isNetworkAvailable(context)) {
+            try {
+                Call<Result> splashService = service.getAllData();
+                splashService.enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        if (response.isSuccessful()) {
 
-                        responseWses = response.body().getResponseData();
-                        if (responseWses.get(0).getSuccess().equals("0")) {
-                            Delete.table(Category.class);
-                            Delete.table(SubCategory.class);
-                            Delete.table(Clothes.class);
-                            Delete.table(DateTable.class);
+                            responseWses = response.body().getResponseData();
+                            if (responseWses.get(0).getSuccess().equals("0")) {
+                                Delete.table(Category.class);
+                                Delete.table(SubCategory.class);
+                                Delete.table(Clothes.class);
+                                Delete.table(DateTable.class);
 
-                            categories = response.body().getCategory();
-                            subCategories = response.body().getSubcategory();
-                            clothes = response.body().getClothes();
-                            dateTables = response.body().getDate_table();
+                                categories = response.body().getCategory();
+                                subCategories = response.body().getSubcategory();
+                                clothes = response.body().getClothes();
+                                dateTables = response.body().getDate_table();
 
-                            for (DateTable dateTable : dateTables) {
-                                dateTable.save();
+                                for (DateTable dateTable : dateTables) {
+                                    dateTable.save();
+                                }
+                                for (Clothes clothe : clothes) {
+                                    clothe.save();
+                                }
+                                for (SubCategory subCategory : subCategories) {
+                                    subCategory.save();
+                                }
+                                for (Category category : categories) {
+                                    category.save();
+                                }
+                                post(SplashActivityEvent.GOTOTAB);
+                            } else {
+                                post(SplashActivityEvent.ERROR, responseWses.get(0).getMessage());
                             }
-                            for (Clothes clothe : clothes) {
-                                clothe.save();
-                            }
-                            for (SubCategory subCategory : subCategories) {
-                                subCategory.save();
-                            }
-                            for (Category category : categories) {
-                                category.save();
-                            }
-                            post(SplashActivityEvent.GOTOTAB);
-                        } else {
-                            post(SplashActivityEvent.ERROR, responseWses.get(0).getMessage());
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Result> call, Throwable t) {
-                    post(SplashActivityEvent.ERROR, t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            post(SplashActivityEvent.ERROR, e.getMessage());
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        post(SplashActivityEvent.ERROR, t.getMessage());
+                    }
+                });
+            } catch (Exception e) {
+                post(SplashActivityEvent.ERROR, e.getMessage());
+            }
+        } else {
+            post(SplashActivityEvent.ERROR, "Verificar su conexión de Internet.");
         }
+
     }
 
     public void post(int type) {

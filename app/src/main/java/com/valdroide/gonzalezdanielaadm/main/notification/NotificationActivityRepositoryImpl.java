@@ -1,18 +1,11 @@
 package com.valdroide.gonzalezdanielaadm.main.notification;
 
-import com.raizlabs.android.dbflow.sql.language.Condition;
-import com.raizlabs.android.dbflow.sql.language.ConditionGroup;
-import com.raizlabs.android.dbflow.sql.language.NameAlias;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.api.APIService;
-import com.valdroide.gonzalezdanielaadm.entities.Category;
-import com.valdroide.gonzalezdanielaadm.entities.Clothes;
-import com.valdroide.gonzalezdanielaadm.entities.DateTable;
+import com.valdroide.gonzalezdanielaadm.entities.ResponseWS;
 import com.valdroide.gonzalezdanielaadm.entities.Result;
-import com.valdroide.gonzalezdanielaadm.entities.SubCategory;
 import com.valdroide.gonzalezdanielaadm.lib.base.EventBus;
-import com.valdroide.gonzalezdanielaadm.main.fragment_add_clothes.FragmentAddClothesRepository;
-import com.valdroide.gonzalezdanielaadm.main.fragment_add_clothes.events.FragmentAddClothesEvent;
 import com.valdroide.gonzalezdanielaadm.main.notification.events.NotificationActivityEvent;
 import com.valdroide.gonzalezdanielaadm.utils.Utils;
 
@@ -25,12 +18,8 @@ import retrofit2.Response;
 
 public class NotificationActivityRepositoryImpl implements NotificationActivityRepository {
     private EventBus eventBus;
-    private List<Category> categories;
-    private List<SubCategory> subCategories;
     private APIService service;
-    final String[] success = {""};
-    final String[] message = {""};
-    final int[] id = {0};
+    List<ResponseWS> responseWses;
 
     public NotificationActivityRepositoryImpl(EventBus eventBus, APIService service) {
         this.eventBus = eventBus;
@@ -38,31 +27,35 @@ public class NotificationActivityRepositoryImpl implements NotificationActivityR
     }
 
     @Override
-    public void sendNotification(String title, String content) {
-        try {
-            Call<Result> notificationService = service.sendNotification(title, content);
-            notificationService.enqueue(new Callback<Result>() {
-                @Override
-                public void onResponse(Call<Result> call, Response<Result> response) {
-                    if (response.isSuccessful()) {
-                        message[0] = response.body().getMessage();
-                        success[0] = response.body().getSuccess();
-                        if (success[0].equals("0")) {
-                            post(NotificationActivityEvent.SENT);
-                        } else {
-                            post(NotificationActivityEvent.ERROR, message[0]);
+    public void sendNotification(Context context, String title, String message) {
+        if (Utils.isNetworkAvailable(context)) {
+            try {
+                Call<Result> notificationService = service.sendNotification(title, message);
+                notificationService.enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        if (response.isSuccessful()) {
+                            responseWses = response.body().getResponseData();
+                            if (responseWses.get(0).getSuccess().equals("0")) {
+                                post(NotificationActivityEvent.SENT);
+                            } else {
+                                post(NotificationActivityEvent.ERROR, responseWses.get(0).getMessage());
+                            }
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Result> call, Throwable t) {
-                    post(NotificationActivityEvent.ERROR, t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            post(NotificationActivityEvent.ERROR, e.getMessage());
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        post(NotificationActivityEvent.ERROR, t.getMessage());
+                    }
+                });
+            } catch (Exception e) {
+                post(NotificationActivityEvent.ERROR, e.getMessage());
+            }
+        } else {
+            post(NotificationActivityEvent.ERROR, "Verificar su conexión de Internet.");
         }
+
     }
 
     public void post(int type) {
@@ -75,6 +68,4 @@ public class NotificationActivityRepositoryImpl implements NotificationActivityR
         event.setError(error);
         eventBus.post(event);
     }
-
-
 }

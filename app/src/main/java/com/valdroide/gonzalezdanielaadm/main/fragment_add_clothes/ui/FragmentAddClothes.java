@@ -157,7 +157,7 @@ public class FragmentAddClothes extends Fragment implements FragmentAddClothesVi
 
     private void fillClothesUpdate(Clothes clothes) {
         spinnerCategory.setSelection(getPositionSpinner(clothes.getID_CATEGORY(), true));
-        spinnerSubCategory.setSelection(getPositionSpinner(clothes.getID_SUBCATEGORY(), false));
+     //   spinnerSubCategory.setSelection(getPositionSpinner(clothes.getID_SUBCATEGORY(), false));
         Utils.setPicasso(getActivity(), clothes.getURL_PHOTO(), R.mipmap.ic_imge_clothes, imageViewClothes);
         editTextDescription.setText(clothes.getDESCRIPTION());
     }
@@ -206,6 +206,8 @@ public class FragmentAddClothes extends Fragment implements FragmentAddClothesVi
                 id_category = categories.get(position).getID_CATEGORY_KEY();
                 presenter.getListSubCategory(id_category);
                 initAdapterSubCategory();
+                if(update)
+                    spinnerSubCategory.setSelection(getPositionSpinner(clothes.getID_SUBCATEGORY(), false));
             }
 
             @Override
@@ -365,8 +367,6 @@ public class FragmentAddClothes extends Fragment implements FragmentAddClothesVi
         imageByte = null;
     }
 
-
-
     @Override
     public void onDestroy() {
         presenter.onDestroy();
@@ -375,7 +375,6 @@ public class FragmentAddClothes extends Fragment implements FragmentAddClothesVi
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
-//        menu.getItem(1).setVisible(false);// posicion
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -401,13 +400,12 @@ public class FragmentAddClothes extends Fragment implements FragmentAddClothesVi
 
                 if (!update) {
                     pDialog.show();
-                    presenter.saveClothe(fillClothe(0, 1, update), new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));
+                    presenter.saveClothe(getActivity(), fillClothe(0, 1, update), new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));
                 } else {
                     pDialog.show();
-                    presenter.updateClothe(fillClothe(clothes.getID_CLOTHES_KEY(), clothes.getISACTIVE(), update), new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));
+                    presenter.updateClothe(getActivity(), fillClothe(clothes.getID_CLOTHES_KEY(), clothes.getISACTIVE(), update), new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));
                 }
             }
-
         } else if (id == R.id.add_category) {
             startActivity(new Intent(getActivity(), ActivityCategory.class));
         } else if (id == R.id.add_sub_category) {

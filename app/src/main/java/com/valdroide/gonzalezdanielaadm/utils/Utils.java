@@ -1,6 +1,8 @@
 package com.valdroide.gonzalezdanielaadm.utils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
@@ -25,7 +27,8 @@ import java.util.List;
  */
 public class Utils {
 
-    public static String URL_IMAGE = "http://10.0.2.2:8080/md/clothes/image_clothes/";
+    //public static String URL_IMAGE = "http://10.0.2.2:8080/md/clothes/image_clothes/";
+    public static String URL_IMAGE = "http://myd.esy.es/myd/clothes/image_clothes/";
     public static String CATEGORY = "CATEGORY";
     public static String SUBCATEGORY = "SUBCATEGORY";
     public static String CLOTHES = "CLOTHES";
@@ -134,5 +137,22 @@ public class Utils {
                 .where(DateTable_Table.TABLENAME.is(Utils.TABLES))
                 .async()
                 .execute();
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        int[] networkTypes = {ConnectivityManager.TYPE_MOBILE,
+                ConnectivityManager.TYPE_WIFI};
+        try {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            for (int networkType : networkTypes) {
+                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
     }
 }

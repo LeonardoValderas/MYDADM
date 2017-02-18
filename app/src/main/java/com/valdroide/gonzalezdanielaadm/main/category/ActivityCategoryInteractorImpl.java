@@ -1,6 +1,8 @@
 package com.valdroide.gonzalezdanielaadm.main.category;
 
 
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.entities.Category;
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
 
@@ -18,17 +20,17 @@ public class ActivityCategoryInteractorImpl implements ActivityCategoryInteracto
     }
 
     @Override
-    public void saveCategory(Category category, DateTable dateTable) {
-        repository.saveCategory(category, dateTable);
+    public void saveCategory(Context context, Category category, DateTable dateTable) {
+        repository.saveCategory(context, category, dateTable);
     }
 
     @Override
-    public void deleteCategory(Category category, DateTable dateTable) {
-        repository.deleteCategory(category, dateTable);
+    public void deleteCategory(Context context, Category category, DateTable dateTable) {
+        repository.deleteCategory(context, category, dateTable);
     }
 
     @Override
-    public void editCategory(Category category, DateTable dateTable) {
-        repository.editCategory(category, dateTable);
+    public void editCategory(Context context, Category category, DateTable dateTable) {
+        repository.editCategory(context, category, dateTable);
     }
 }

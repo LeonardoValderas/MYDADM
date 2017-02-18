@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.fragment_add_clothes;
 
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.entities.Category;
 import com.valdroide.gonzalezdanielaadm.entities.Clothes;
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
@@ -11,6 +13,6 @@ import com.valdroide.gonzalezdanielaadm.main.fragment_add_clothes.events.Fragmen
 public interface FragmentAddClothesInteractor {
     void getListCategory();
     void getListSubCategory(int id_category);
-    void saveClothe(Clothes clothe, DateTable dateTable);
-    void updateClothe(Clothes clothe, DateTable dateTable);
+    void saveClothe(Context context, Clothes clothe, DateTable dateTable);
+    void updateClothe(Context context, Clothes clothe, DateTable dateTable);
 }

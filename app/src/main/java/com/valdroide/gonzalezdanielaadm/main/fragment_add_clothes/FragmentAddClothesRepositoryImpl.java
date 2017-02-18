@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.fragment_add_clothes;
 
+import android.content.Context;
+
 import com.raizlabs.android.dbflow.sql.language.Condition;
 import com.raizlabs.android.dbflow.sql.language.ConditionGroup;
 import com.raizlabs.android.dbflow.sql.language.NameAlias;
@@ -53,82 +55,89 @@ public class FragmentAddClothesRepositoryImpl implements FragmentAddClothesRepos
     }
 
     @Override
-    public void updateClothe(final Clothes clothe, final DateTable dateTable) {
-        try {
-            Call<Result> clothesService = service.updateClothes(clothe.getID_CLOTHES_KEY(), clothe.getID_CATEGORY(), clothe.getID_SUBCATEGORY(), clothe.getURL_PHOTO(), clothe.getNAME_PHOTO(), clothe.getDESCRIPTION(), clothe.getISACTIVE(), clothe.getENCODEBYTE(), clothe.getNAME_BEFORE(), dateTable.getDATE());
-            clothesService.enqueue(new Callback<Result>() {
-                @Override
-                public void onResponse(Call<Result> call, Response<Result> response) {
-                    if (response.isSuccessful()) {
-                        message[0] = response.body().getMessage();
-                        success[0] = response.body().getSuccess();
-                        if (success[0].equals("0")) {
-                            clothe.update();
-                            if (Utils.dateTables() != null) {
-                                if (Utils.dateTables().size() <= 0) {
-                                    Utils.switchTable();
-                                }
-                            }
-                            Utils.updateDateTable(dateTable);
-                            post(FragmentAddClothesEvent.UPDATECLOTHE);
-                        } else {
-                            post(FragmentAddClothesEvent.ERROR, message[0]);
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Result> call, Throwable t) {
-                    post(FragmentAddClothesEvent.ERROR, t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            post(FragmentAddClothesEvent.ERROR, e.getMessage());
-        }
-    }
-
-    @Override
-    public void saveClothe(final Clothes clothe, final DateTable dateTable) {
-        try {
-            //   APIService service = new ClothesClient().getAPIService();
-            Call<Result> clothesService = service.insertClothes(clothe.getID_CATEGORY(), clothe.getID_SUBCATEGORY(), clothe.getURL_PHOTO(), clothe.getNAME_PHOTO(), clothe.getDESCRIPTION(), clothe.getISACTIVE(), clothe.getENCODEBYTE(), dateTable.getDATE());
-            clothesService.enqueue(new Callback<Result>() {
-                @Override
-                public void onResponse(Call<Result> call, Response<Result> response) {
-                    if (response.isSuccessful()) {
-                        message[0] = response.body().getMessage();
-                        success[0] = response.body().getSuccess();
-                        id[0] = response.body().getId();
-
-                        if (success[0].equals("0")) {
-                            if (id[0] != 0) {
-                                clothe.setID_CLOTHES_KEY(id[0]);
-                                clothe.setENCODEBYTE("");
-                                clothe.setNAME_BEFORE("");
-                                clothe.save();
+    public void updateClothe(Context context, final Clothes clothe, final DateTable dateTable) {
+        if (Utils.isNetworkAvailable(context)) {
+            try {
+                Call<Result> clothesService = service.updateClothes(clothe.getID_CLOTHES_KEY(), clothe.getID_CATEGORY(), clothe.getID_SUBCATEGORY(), clothe.getURL_PHOTO(), clothe.getNAME_PHOTO(), clothe.getDESCRIPTION(), clothe.getISACTIVE(), clothe.getENCODEBYTE(), clothe.getNAME_BEFORE(), dateTable.getDATE());
+                clothesService.enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        if (response.isSuccessful()) {
+                            message[0] = response.body().getMessage();
+                            success[0] = response.body().getSuccess();
+                            if (success[0].equals("0")) {
+                                clothe.update();
                                 if (Utils.dateTables() != null) {
                                     if (Utils.dateTables().size() <= 0) {
                                         Utils.switchTable();
                                     }
                                 }
                                 Utils.updateDateTable(dateTable);
-                                post(FragmentAddClothesEvent.SAVECLOTHE);
+                                post(FragmentAddClothesEvent.UPDATECLOTHE);
                             } else {
-                                post(FragmentAddClothesEvent.ERROR, "Error al guardar el producto.");
+                                post(FragmentAddClothesEvent.ERROR, message[0]);
                             }
-                        } else {
-                            post(FragmentAddClothesEvent.ERROR, message[0]);
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Result> call, Throwable t) {
-                    post(FragmentAddClothesEvent.ERROR, t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            post(FragmentAddClothesEvent.ERROR, e.getMessage());
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        post(FragmentAddClothesEvent.ERROR, t.getMessage());
+                    }
+                });
+            } catch (Exception e) {
+                post(FragmentAddClothesEvent.ERROR, e.getMessage());
+            }
+        } else {
+            post(FragmentAddClothesEvent.ERROR, "Verificar su conexión de Internet.");
+        }
+    }
+
+    @Override
+    public void saveClothe(Context context, final Clothes clothe, final DateTable dateTable) {
+        if (Utils.isNetworkAvailable(context)) {
+            try {
+                Call<Result> clothesService = service.insertClothes(clothe.getID_CATEGORY(), clothe.getID_SUBCATEGORY(), clothe.getURL_PHOTO(), clothe.getNAME_PHOTO(), clothe.getDESCRIPTION(), clothe.getISACTIVE(), clothe.getENCODEBYTE(), dateTable.getDATE());
+                clothesService.enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        if (response.isSuccessful()) {
+                            message[0] = response.body().getMessage();
+                            success[0] = response.body().getSuccess();
+                            id[0] = response.body().getId();
+
+                            if (success[0].equals("0")) {
+                                if (id[0] != 0) {
+                                    clothe.setID_CLOTHES_KEY(id[0]);
+                                    clothe.setENCODEBYTE("");
+                                    clothe.setNAME_BEFORE("");
+                                    clothe.save();
+                                    if (Utils.dateTables() != null) {
+                                        if (Utils.dateTables().size() <= 0) {
+                                            Utils.switchTable();
+                                        }
+                                    }
+                                    Utils.updateDateTable(dateTable);
+                                    post(FragmentAddClothesEvent.SAVECLOTHE);
+                                } else {
+                                    post(FragmentAddClothesEvent.ERROR, "Error al guardar el producto.");
+                                }
+                            } else {
+                                post(FragmentAddClothesEvent.ERROR, message[0]);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        post(FragmentAddClothesEvent.ERROR, t.getMessage());
+                    }
+                });
+            } catch (Exception e) {
+                post(FragmentAddClothesEvent.ERROR, e.getMessage());
+            }
+        } else {
+            post(FragmentAddClothesEvent.ERROR, "Verificar su conexión de Internet.");
         }
     }
 

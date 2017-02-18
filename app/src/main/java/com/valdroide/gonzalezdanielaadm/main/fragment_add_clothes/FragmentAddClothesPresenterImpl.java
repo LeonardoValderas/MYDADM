@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.fragment_add_clothes;
 
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.entities.Clothes;
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
 import com.valdroide.gonzalezdanielaadm.lib.base.EventBus;
@@ -43,13 +45,13 @@ public class FragmentAddClothesPresenterImpl implements FragmentAddClothesPresen
     }
 
     @Override
-    public void saveClothe(Clothes clothe, DateTable dateTable) {
-        interactor.saveClothe(clothe, dateTable);
+    public void saveClothe(Context context, Clothes clothe, DateTable dateTable) {
+        interactor.saveClothe(context, clothe, dateTable);
     }
 
     @Override
-    public void updateClothe(Clothes clothe, DateTable dateTable) {
-        interactor.updateClothe(clothe, dateTable);
+    public void updateClothe(Context context, Clothes clothe, DateTable dateTable) {
+        interactor.updateClothe(context, clothe, dateTable);
     }
 
 

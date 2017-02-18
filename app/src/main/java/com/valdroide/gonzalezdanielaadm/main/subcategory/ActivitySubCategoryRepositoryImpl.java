@@ -1,6 +1,8 @@
 package com.valdroide.gonzalezdanielaadm.main.subcategory;
 
 
+import android.content.Context;
+
 import com.raizlabs.android.dbflow.sql.language.Condition;
 import com.raizlabs.android.dbflow.sql.language.ConditionGroup;
 import com.raizlabs.android.dbflow.sql.language.NameAlias;
@@ -45,117 +47,144 @@ public class ActivitySubCategoryRepositoryImpl implements ActivitySubCategoryRep
 
 
     @Override
-    public void editSubCategory(final SubCategory subcategory, final DateTable dateTable) {
-        try {
-            Call<Result> categoryService = service.updateSubCategory(subcategory.getID_SUBCATEGORY_KEY(), subcategory.getSUBCATEGORY(), subcategory.getID_CATEGORY(), dateTable.getDATE());
-            categoryService.enqueue(new Callback<Result>() {
-                @Override
-                public void onResponse(Call<Result> call, Response<Result> response) {
-                    if (response.isSuccessful()) {
-                        message[0] = response.body().getMessage();
-                        success[0] = response.body().getSuccess();
+    public void editSubCategory(Context context, final SubCategory subcategory, final DateTable dateTable) {
+        if (Utils.isNetworkAvailable(context)) {
+            try {
+                ConditionGroup conditionGroup = ConditionGroup.clause();
+                conditionGroup.and(Condition.column(new NameAlias("SUBCATEGORY")).is(subcategory.getSUBCATEGORY()));
+                conditionGroup.and(Condition.column(new NameAlias("ID_CATEGORY")).is(subcategory.getID_CATEGORY()));
+                if (!SQLite.select().from(SubCategory.class).where(conditionGroup).hasData()) {
+                    Call<Result> categoryService = service.updateSubCategory(subcategory.getID_SUBCATEGORY_KEY(), subcategory.getSUBCATEGORY(), subcategory.getID_CATEGORY(), dateTable.getDATE());
+                    categoryService.enqueue(new Callback<Result>() {
+                        @Override
+                        public void onResponse(Call<Result> call, Response<Result> response) {
+                            if (response.isSuccessful()) {
+                                message[0] = response.body().getMessage();
+                                success[0] = response.body().getSuccess();
 
-                        if (success[0].equals("0")) {
+                                if (success[0].equals("0")) {
 
-                            subcategory.update();
-                            if (Utils.dateTables() != null) {
-                                if (Utils.dateTables().size() <= 0) {
-                                    Utils.switchTable();
+                                    subcategory.update();
+                                    if (Utils.dateTables() != null) {
+                                        if (Utils.dateTables().size() <= 0) {
+                                            Utils.switchTable();
+                                        }
+                                    }
+                                    Utils.updateDateTable(dateTable);
+                                    post(ActivitySubCategoryEvent.UPDATESUBCATEGORY, subcategory);
+                                } else {
+                                    post(ActivitySubCategoryEvent.ERROR, message[0]);
                                 }
                             }
-                            Utils.updateDateTable(dateTable);
-                            post(ActivitySubCategoryEvent.UPDATESUBCATEGORY, subcategory);
-                        } else {
-                            post(ActivitySubCategoryEvent.ERROR, message[0]);
                         }
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<Result> call, Throwable t) {
-                    post(ActivitySubCategoryEvent.ERROR, t.getMessage());
+                        @Override
+                        public void onFailure(Call<Result> call, Throwable t) {
+                            post(ActivitySubCategoryEvent.ERROR, t.getMessage());
+                        }
+                    });
+
+                } else {
+                    post(ActivitySubCategoryEvent.ERROR, "Ya existe la SubCategoria para esta Categoria.");
                 }
-            });
-        } catch (Exception e) {
-            post(ActivitySubCategoryEvent.ERROR, e.getMessage());
+            } catch (Exception e) {
+                post(ActivitySubCategoryEvent.ERROR, e.getMessage());
+            }
+        } else {
+            post(ActivitySubCategoryEvent.ERROR, "Verificar su conexión de Internet.");
         }
     }
 
     @Override
-    public void saveSubCategory(final SubCategory subcategory, final DateTable dateTable) {
-        try {
-            Call<Result> categoryService = service.insertSubCategory(subcategory.getSUBCATEGORY(), subcategory.getID_CATEGORY(), dateTable.getDATE());
-            categoryService.enqueue(new Callback<Result>() {
-                @Override
-                public void onResponse(Call<Result> call, Response<Result> response) {
-                    if (response.isSuccessful()) {
-                        message[0] = response.body().getMessage();
-                        success[0] = response.body().getSuccess();
-                        id[0] = response.body().getId();
+    public void saveSubCategory(Context context, final SubCategory subcategory, final DateTable dateTable) {
+        if (Utils.isNetworkAvailable(context)) {
+            try {
+                ConditionGroup conditionGroup = ConditionGroup.clause();
+                conditionGroup.and(Condition.column(new NameAlias("SUBCATEGORY")).is(subcategory.getSUBCATEGORY()));
+                conditionGroup.and(Condition.column(new NameAlias("ID_CATEGORY")).is(subcategory.getID_CATEGORY()));
+                if (!SQLite.select().from(SubCategory.class).where(conditionGroup).hasData()) {
+                    Call<Result> categoryService = service.insertSubCategory(subcategory.getSUBCATEGORY(), subcategory.getID_CATEGORY(), dateTable.getDATE());
+                    categoryService.enqueue(new Callback<Result>() {
+                        @Override
+                        public void onResponse(Call<Result> call, Response<Result> response) {
+                            if (response.isSuccessful()) {
+                                message[0] = response.body().getMessage();
+                                success[0] = response.body().getSuccess();
+                                id[0] = response.body().getId();
 
-                        if (success[0].equals("0")) {
-                            if (id[0] != 0) {
-                                subcategory.setID_SUBCATEGORY_KEY(id[0]);
-                                subcategory.save();
+                                if (success[0].equals("0")) {
+                                    if (id[0] != 0) {
+                                        subcategory.setID_SUBCATEGORY_KEY(id[0]);
+                                        subcategory.save();
+                                        if (Utils.dateTables() != null) {
+                                            if (Utils.dateTables().size() <= 0) {
+                                                Utils.switchTable();
+                                            }
+                                        }
+                                        Utils.updateDateTable(dateTable);
+                                        post(ActivitySubCategoryEvent.SAVESUBCATEGORY, subcategory);
+                                    } else {
+                                        post(ActivitySubCategoryEvent.ERROR, "Error al guardar la subcategoria");
+                                    }
+                                } else {
+                                    post(ActivitySubCategoryEvent.ERROR, message[0]);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Result> call, Throwable t) {
+                            post(ActivitySubCategoryEvent.ERROR, t.getMessage());
+                        }
+                    });
+                } else {
+                    post(ActivitySubCategoryEvent.ERROR, "Ya existe la SubCategoria para esta Categoria.");
+                }
+            } catch (Exception e) {
+                post(ActivitySubCategoryEvent.ERROR, e.getMessage());
+            }
+        } else {
+            post(ActivitySubCategoryEvent.ERROR, "Verificar su conexión de Internet.");
+        }
+    }
+
+    @Override
+    public void deleteSubCategory(Context context, final SubCategory subcategory, final DateTable dateTable) {
+        if (Utils.isNetworkAvailable(context)) {
+            try {
+                Call<Result> categoryService = service.deleteSubCategory(subcategory.getID_SUBCATEGORY_KEY(), dateTable.getDATE());
+                categoryService.enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        if (response.isSuccessful()) {
+                            message[0] = response.body().getMessage();
+                            success[0] = response.body().getSuccess();
+
+                            if (success[0].equals("0")) {
+                                subcategory.delete();
                                 if (Utils.dateTables() != null) {
                                     if (Utils.dateTables().size() <= 0) {
                                         Utils.switchTable();
                                     }
                                 }
                                 Utils.updateDateTable(dateTable);
-                                post(ActivitySubCategoryEvent.SAVESUBCATEGORY, subcategory);
+                                post(ActivitySubCategoryEvent.DELETESUBCATEGORY, subcategory);
                             } else {
-                                post(ActivitySubCategoryEvent.ERROR, "Error al guardar la subcategoria");
+                                post(ActivitySubCategoryEvent.ERROR, message[0]);
                             }
-                        } else {
-                            post(ActivitySubCategoryEvent.ERROR, message[0]);
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Result> call, Throwable t) {
-                    post(ActivitySubCategoryEvent.ERROR, t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            post(ActivitySubCategoryEvent.ERROR, e.getMessage());
-        }
-    }
-
-    @Override
-    public void deleteSubCategory(final SubCategory subcategory, final DateTable dateTable) {
-        try {
-            Call<Result> categoryService = service.deleteSubCategory(subcategory.getID_SUBCATEGORY_KEY(), dateTable.getDATE());
-            categoryService.enqueue(new Callback<Result>() {
-                @Override
-                public void onResponse(Call<Result> call, Response<Result> response) {
-                    if (response.isSuccessful()) {
-                        message[0] = response.body().getMessage();
-                        success[0] = response.body().getSuccess();
-
-                        if (success[0].equals("0")) {
-                            subcategory.delete();
-                            if (Utils.dateTables() != null) {
-                                if (Utils.dateTables().size() <= 0) {
-                                    Utils.switchTable();
-                                }
-                            }
-                            Utils.updateDateTable(dateTable);
-                            post(ActivitySubCategoryEvent.DELETESUBCATEGORY, subcategory);
-                        } else {
-                            post(ActivitySubCategoryEvent.ERROR, message[0]);
-                        }
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        post(ActivitySubCategoryEvent.ERROR, t.getMessage());
                     }
-                }
-
-                @Override
-                public void onFailure(Call<Result> call, Throwable t) {
-                    post(ActivitySubCategoryEvent.ERROR, t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            post(ActivitySubCategoryEvent.ERROR, e.getMessage());
+                });
+            } catch (Exception e) {
+                post(ActivitySubCategoryEvent.ERROR, e.getMessage());
+            }
+        } else {
+            post(ActivitySubCategoryEvent.ERROR, "Verificar su conexión de Internet.");
         }
     }
 

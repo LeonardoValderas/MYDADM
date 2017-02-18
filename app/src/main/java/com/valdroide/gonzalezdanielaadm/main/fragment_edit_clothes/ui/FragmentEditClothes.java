@@ -1,8 +1,10 @@
 package com.valdroide.gonzalezdanielaadm.main.fragment_edit_clothes.ui;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
@@ -97,7 +101,6 @@ public class FragmentEditClothes extends Fragment implements FragmentEditClothes
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_clothes, container, false);
 
         ButterKnife.bind(this, view);
@@ -231,7 +234,7 @@ public class FragmentEditClothes extends Fragment implements FragmentEditClothes
         pDialog.show();
         int isactive = clothes.getISACTIVE() == 0 ? 1 : 0;
         clothes.setISACTIVE(isactive);
-        presenter.clickSwitch(clothes, new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));
+        presenter.clickSwitch(getActivity(), clothes, new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));
     }
 
     public void intentEditClothes(Clothes clothes) {
@@ -260,7 +263,7 @@ public class FragmentEditClothes extends Fragment implements FragmentEditClothes
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.delete) {
             pDialog.show();
-            presenter.deleteClothes(clothesList.get(id_delete), new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));
+            presenter.deleteClothes(getActivity(), clothesList.get(id_delete), new DateTable(Utils.CLOTHES, Utils.getFechaOficial()));
             Utils.showSnackBar(conteiner, "Ola");
         }
         return true;

@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.notification;
 
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.lib.base.EventBus;
 import com.valdroide.gonzalezdanielaadm.main.notification.events.NotificationActivityEvent;
 import com.valdroide.gonzalezdanielaadm.main.notification.ui.NotificationActivityView;
@@ -31,8 +33,8 @@ public class NotificationActivityPresenterImpl implements NotificationActivityPr
     }
 
     @Override
-    public void sendNotification(String title, String content) {
-        interactor.sendNotification(title, content);
+    public void sendNotification(Context context, String title, String content) {
+        interactor.sendNotification(context, title, content);
     }
 
     @Override

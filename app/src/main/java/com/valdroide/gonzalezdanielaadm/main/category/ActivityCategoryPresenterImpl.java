@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.category;
 
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.entities.Category;
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
 import com.valdroide.gonzalezdanielaadm.lib.base.EventBus;
@@ -39,18 +41,18 @@ public class ActivityCategoryPresenterImpl implements ActivityCategoryPresenter 
     }
 
     @Override
-    public void saveCategory(Category category, DateTable dateTable) {
-        interactor.saveCategory(category, dateTable);
+    public void saveCategory(Context context, Category category, DateTable dateTable) {
+        interactor.saveCategory(context, category, dateTable);
     }
 
     @Override
-    public void editCategory(Category category, DateTable dateTable) {
-        interactor.editCategory(category, dateTable);
+    public void editCategory(Context context, Category category, DateTable dateTable) {
+        interactor.editCategory(context, category, dateTable);
     }
 
     @Override
-    public void deleteCategory(Category category, DateTable dateTable) {
-        interactor.deleteCategory(category, dateTable);
+    public void deleteCategory(Context context, Category category, DateTable dateTable) {
+        interactor.deleteCategory(context, category, dateTable);
     }
 
 

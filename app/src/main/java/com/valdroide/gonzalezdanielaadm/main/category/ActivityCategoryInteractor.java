@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.category;
 
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.entities.Category;
 import com.valdroide.gonzalezdanielaadm.entities.Clothes;
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
@@ -9,7 +11,7 @@ import com.valdroide.gonzalezdanielaadm.entities.DateTable;
  */
 public interface ActivityCategoryInteractor {
     void getListCategory();
-    void saveCategory(Category category, DateTable dateTable);
-    void deleteCategory(Category category, DateTable dateTable);
-    void editCategory(Category category, DateTable dateTable);
+    void saveCategory(Context context, Category category, DateTable dateTable);
+    void deleteCategory(Context context, Category category, DateTable dateTable);
+    void editCategory(Context context, Category category, DateTable dateTable);
 }

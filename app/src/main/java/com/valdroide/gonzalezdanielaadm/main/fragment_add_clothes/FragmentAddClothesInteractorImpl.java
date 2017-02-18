@@ -1,6 +1,8 @@
 package com.valdroide.gonzalezdanielaadm.main.fragment_add_clothes;
 
 
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.entities.Clothes;
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
 
@@ -23,13 +25,13 @@ public class FragmentAddClothesInteractorImpl implements FragmentAddClothesInter
     }
 
     @Override
-    public void saveClothe(Clothes clothe, DateTable dateTable) {
-        repository.saveClothe(clothe, dateTable);
+    public void saveClothe(Context context, Clothes clothe, DateTable dateTable) {
+        repository.saveClothe(context, clothe, dateTable);
     }
 
     @Override
-    public void updateClothe(Clothes clothe, DateTable dateTable) {
-        repository.updateClothe(clothe, dateTable);
+    public void updateClothe(Context context, Clothes clothe, DateTable dateTable) {
+        repository.updateClothe(context, clothe, dateTable);
     }
 
 

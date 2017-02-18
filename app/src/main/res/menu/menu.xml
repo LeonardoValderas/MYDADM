@@ -13,10 +13,10 @@
         android:id="@+id/add_notification"
         android:title="Notificación"
         app:showAsAction="never"></item>
-    <item
-        android:id="@+id/synchronize"
-        android:title="Sincronizar"
-        app:showAsAction="never"></item>
+    <!--<item-->
+        <!--android:id="@+id/synchronize"-->
+        <!--android:title="Sincronizar"-->
+        <!--app:showAsAction="never"></item>-->
     <item
         android:id="@+id/action_save"
         android:icon="@android:drawable/ic_menu_save"

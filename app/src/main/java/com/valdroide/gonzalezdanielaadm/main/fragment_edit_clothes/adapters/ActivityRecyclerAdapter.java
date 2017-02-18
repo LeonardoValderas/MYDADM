@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -43,10 +44,11 @@ public class ActivityRecyclerAdapter extends RecyclerView.Adapter<ActivityRecycl
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Clothes clothes = clothesList.get(position);
-        holder.setOnItemClickListener(onItemClickListener, position, clothes);
+
         holder.textViewDescription.setText(clothes.getDESCRIPTION());
         holder.switchActive.setChecked(clothes.getISACTIVE()==0 ? false : true);
         Utils.setPicasso(fragment.getActivity(),clothes.getURL_PHOTO(),R.mipmap.ic_imge_clothes,holder.imageViewClothes);
+        holder.setOnItemClickListener(onItemClickListener, position, clothes);
     }
 
     @Override
@@ -89,9 +91,15 @@ public class ActivityRecyclerAdapter extends RecyclerView.Adapter<ActivityRecycl
 
         public void setOnItemClickListener(final OnItemClickListener listener, final int position, final Clothes clothes) {
 
-            switchActive.setOnClickListener(new View.OnClickListener() {
+//            switchActive.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    listener.onClickSwitch(clothes);
+//                }
+//            });
+            switchActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View v) {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     listener.onClickSwitch(clothes);
                 }
             });

@@ -1,5 +1,7 @@
 package com.valdroide.gonzalezdanielaadm.main.fragment_edit_clothes;
 
+import android.content.Context;
+
 import com.valdroide.gonzalezdanielaadm.entities.Clothes;
 import com.valdroide.gonzalezdanielaadm.entities.DateTable;
 
@@ -27,12 +29,12 @@ public class FragmentEditClothesInteractorImpl implements FragmentEditClothesInt
     }
 
     @Override
-    public void deleteClothes(Clothes clothes, DateTable dateTable) {
-        repository.deleteClothes(clothes, dateTable);
+    public void deleteClothes(Context context, Clothes clothes, DateTable dateTable) {
+        repository.deleteClothes(context, clothes, dateTable);
     }
 
     @Override
-    public void clickSwitch(Clothes clothes, DateTable dateTable) {
-        repository.clickSwitch(clothes, dateTable);
+    public void clickSwitch(Context context, Clothes clothes, DateTable dateTable) {
+        repository.clickSwitch(context, clothes, dateTable);
     }
 }
